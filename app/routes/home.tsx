@@ -1,10 +1,11 @@
 import { Badge } from "lucide-react";
 import { useMemo, useState, useTransition } from "react";
+import { FiiCard } from "~/components/FiiCard";
+import { SearchAndFilters } from "~/components/SearchAndFilters";
 import { StatsCards } from "~/components/StatsCards";
 import { Card, CardContent } from "~/components/ui/card";
 import { mockFiis } from "~/data/mockFiis";
 import type { Route } from "./+types/home";
-import { SearchAndFilters } from "~/components/SearchAndFilters";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -51,7 +52,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      {/* Header */}
       <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -78,7 +78,6 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8">
         <StatsCards fiis={mockFiis} />
 
-        {/* Selection Info */}
         {selectedFiis.length > 0 && (
           <Card className="mb-6 bg-blue-50 border-blue-200">
             <CardContent className="pt-6">
@@ -101,8 +100,7 @@ export default function Home() {
           </Card>
         )}
 
-        {/* FIIs Grid */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredFiis.map((fii) => (
             <FiiCard
               key={fii.ticker}
@@ -114,7 +112,7 @@ export default function Home() {
               }
             />
           ))}
-        </div> */}
+        </div>
 
         {filteredFiis.length === 0 && (
           <div className="text-center py-12">
