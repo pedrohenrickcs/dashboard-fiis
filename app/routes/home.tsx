@@ -8,6 +8,8 @@ import { Card, CardContent } from "~/components/ui/card";
 import { mockFiis } from "~/data/mockFiis";
 import type { Route } from "./+types/home";
 
+import { useFiis } from "~/hooks/useFiis";
+
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Meu FII Dashboard" },
@@ -20,13 +22,18 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const tickers = ["HGLG11", "KNRI11", "MXRF11", "ALZR11"];
+  const { data: fiis, isLoading, error } = useFiis(tickers);
+
+  console.log("fiis", fiis);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFiis, setSelectedFiis] = useState<string[]>([]);
   const [showComparator, setShowComparator] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const filteredFiis = useMemo(() => {
-    return mockFiis.filter(
+    return fiis?.filter(
       (fii) =>
         fii.ticker.toLowerCase().includes(searchTerm.toLowerCase()) ||
         fii.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -77,7 +84,7 @@ export default function Home() {
       </header>
 
       <div className="container mx-auto px-4 py-8">
-        <StatsCards fiis={mockFiis} />
+        <StatsCards fiis={fiis || []} />
 
         {selectedFiis.length > 0 && (
           <Card className="mb-6 bg-blue-50 border-blue-200">
@@ -102,7 +109,7 @@ export default function Home() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredFiis.map((fii) => (
+          {fiis?.map((fii) => (
             <FiiCard
               key={fii.ticker}
               fii={fii}
@@ -115,7 +122,7 @@ export default function Home() {
           ))}
         </div>
 
-        {filteredFiis.length === 0 && (
+        {fiis?.length === 0 && (
           <div className="text-center py-12">
             <div className="text-gray-400 text-lg mb-2">
               Nenhum FII encontrado
