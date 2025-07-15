@@ -1,6 +1,5 @@
 
 import axios from 'axios'
-import type { Fii } from '~/data/mockFiis'
 
 const BRAPI_TOKEN = import.meta.env.VITE_BRAPI_TOKEN
 
@@ -26,8 +25,7 @@ api.interceptors.response.use(
   }
 )
 
-
-export async function fetchFiisFromBrapi(tickers: string[]): Promise<Fii[]> {
+export async function fetchFiisFromBrapi(tickers: string[]) {
   const requests = tickers.map((ticker) =>
     api.get(`/quote/${ticker}`, {
       params: { range: '1d', fundamental: true },
@@ -43,8 +41,7 @@ export async function fetchFiisFromBrapi(tickers: string[]): Promise<Fii[]> {
   })
 }
 
-
-function mapBrapiToFii(d: any): Fii {
+function mapBrapiToFii(d: any) {
   return {
     ticker: d.symbol,
     name: d.longName,

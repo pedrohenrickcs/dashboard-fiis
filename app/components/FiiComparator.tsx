@@ -8,8 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/dialog";
-import type { Fii } from "~/data/mockFiis";
-
+import type { Fii } from "~/types/fiis";
 interface FiiComparatorProps {
   fii1: Fii;
   fii2: Fii;
@@ -109,22 +108,23 @@ export const FiiComparator = ({ fii1, fii2, onClose }: FiiComparatorProps) => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-xl font-bold text-blue-900">
-                    {fii1.ticker}
+                    {fii1.ticker ?? "-"}
                   </CardTitle>
                   <Badge className={getSectorColor(fii1.sector)}>
-                    {fii1.sector}
+                    {fii1.sector ?? "-"}
                   </Badge>
                 </div>
-                <p className="text-sm text-blue-700">{fii1.name}</p>
+                <p className="text-sm text-blue-700">{fii1.name ?? "-"}</p>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-blue-900">
-                  {formatCurrency(fii1.price)}
+                  {fii1.price ? formatCurrency(fii1.price) : "-"}
                 </div>
                 <div className="flex items-center mt-2">
                   <Percent className="w-4 h-4 text-green-600 mr-1" />
                   <span className="text-lg font-semibold text-green-600">
-                    {fii1.dividendYield.toFixed(1)}% DY
+                    {fii1.dividendYield ? fii1.dividendYield?.toFixed(1) : "-"}%
+                    DY
                   </span>
                 </div>
               </CardContent>
@@ -141,22 +141,25 @@ export const FiiComparator = ({ fii1, fii2, onClose }: FiiComparatorProps) => {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-xl font-bold text-purple-900">
-                    {fii2.ticker}
+                    {fii2.ticker ?? "-"}
                   </CardTitle>
                   <Badge className={getSectorColor(fii2.sector)}>
-                    {fii2.sector}
+                    {fii2.sector ?? "-"}
                   </Badge>
                 </div>
-                <p className="text-sm text-purple-700">{fii2.name}</p>
+                <p className="text-sm text-purple-700">{fii2.name ?? "-"}</p>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-purple-900">
-                  {formatCurrency(fii2.price)}
+                  {fii2.price ? formatCurrency(fii2.price) : "-"}
                 </div>
                 <div className="flex items-center mt-2">
                   <Percent className="w-4 h-4 text-green-600 mr-1" />
                   <span className="text-lg font-semibold text-green-600">
-                    {fii2.dividendYield.toFixed(1)}% DY
+                    {fii2?.dividendYield
+                      ? fii2?.dividendYield?.toFixed(1)
+                      : "-"}
+                    % DY
                   </span>
                 </div>
               </CardContent>
@@ -175,7 +178,7 @@ export const FiiComparator = ({ fii1, fii2, onClose }: FiiComparatorProps) => {
                 label="Dividend Yield"
                 value1={fii1.dividendYield}
                 value2={fii2.dividendYield}
-                formatter={(v) => v.toFixed(1)}
+                formatter={(v) => v?.toFixed(1)}
                 unit="%"
                 higherIsBetter={true}
               />
@@ -184,7 +187,7 @@ export const FiiComparator = ({ fii1, fii2, onClose }: FiiComparatorProps) => {
                 label="P/VP"
                 value1={fii1.pvp}
                 value2={fii2.pvp}
-                formatter={(v) => v.toFixed(2)}
+                formatter={(v) => v?.toFixed(2)}
                 higherIsBetter={false}
               />
 
@@ -192,23 +195,23 @@ export const FiiComparator = ({ fii1, fii2, onClose }: FiiComparatorProps) => {
                 label="Vacância"
                 value1={fii1.vacancy}
                 value2={fii2.vacancy}
-                formatter={(v) => v.toFixed(1)}
+                formatter={(v) => v?.toFixed(1)}
                 unit="%"
                 higherIsBetter={false}
               />
 
               <ComparisonMetric
                 label="Patrimônio Líquido"
-                value1={fii1.netWorth}
-                value2={fii2.netWorth}
+                value1={fii1?.netWorth}
+                value2={fii2?.netWorth}
                 formatter={formatCurrency}
                 higherIsBetter={true}
               />
 
               <ComparisonMetric
                 label="Último Dividendo"
-                value1={fii1.lastDividend}
-                value2={fii2.lastDividend}
+                value1={fii1?.lastDividend}
+                value2={fii2?.lastDividend}
                 formatter={formatCurrency}
                 higherIsBetter={true}
               />
@@ -225,7 +228,7 @@ export const FiiComparator = ({ fii1, fii2, onClose }: FiiComparatorProps) => {
                 label="Valor de Mercado"
                 value1={fii1.marketCap}
                 value2={fii2.marketCap}
-                formatter={(v) => `R$ ${(v / 1000000000).toFixed(1)}B`}
+                formatter={(v) => `R$ ${(v / 1000000000)?.toFixed(1)}B`}
                 higherIsBetter={true}
               />
             </CardContent>

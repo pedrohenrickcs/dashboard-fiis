@@ -1,11 +1,10 @@
 import { Badge } from "lucide-react";
-import { useMemo, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { FiiCard } from "~/components/FiiCard";
 import { FiiComparator } from "~/components/FiiComparator";
 import { SearchAndFilters } from "~/components/SearchAndFilters";
 import { StatsCards } from "~/components/StatsCards";
 import { Card, CardContent } from "~/components/ui/card";
-import { mockFiis } from "~/data/mockFiis";
 import type { Route } from "./+types/home";
 
 import { useFiis } from "~/hooks/useFiis";
@@ -22,24 +21,16 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  const tickers = ["HGLG11", "KNRI11", "MXRF11", "ALZR11"];
+  const tickers = ["HGLG11", "KNRI11", "MXRF11", "ALZR11", "ALZC11", "EQIR11"];
   const { data: fiis, isLoading, error } = useFiis(tickers);
-
-  console.log("fiis", fiis);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedFiis, setSelectedFiis] = useState<string[]>([]);
   const [showComparator, setShowComparator] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  const filteredFiis = useMemo(() => {
-    return fiis?.filter(
-      (fii) =>
-        fii.ticker.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        fii.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        fii.sector.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm]);
+  if (isLoading) return <p>Carregando…</p>;
+  if (error) return <p>Erro: {(error as Error).message}</p>;
 
   const handleSearchChange = (value: string) => {
     startTransition(() => {
@@ -136,8 +127,8 @@ export default function Home() {
 
       {showComparator && selectedFiis.length === 2 && (
         <FiiComparator
-          fii1={mockFiis.find((f) => f.ticker === selectedFiis[0])!}
-          fii2={mockFiis.find((f) => f.ticker === selectedFiis[1])!}
+          fii1={fiis?.find((f) => f.ticker === selectedFiis[0])!}
+          fii2={fiis?.find((f) => f.ticker === selectedFiis[1])!}
           onClose={() => setShowComparator(false)}
         />
       )}

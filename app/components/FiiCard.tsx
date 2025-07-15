@@ -2,8 +2,7 @@ import { Building, Calendar, Percent } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import type { Fii } from "~/data/mockFiis";
-
+import type { Fii } from "~/types/fiis";
 interface FiiCardProps {
   fii: Fii;
   isSelected: boolean;
@@ -17,7 +16,6 @@ export const FiiCard = ({
   onSelect,
   canSelect,
 }: FiiCardProps) => {
-  console.log("fii -----", fii);
   const getSectorColor = (sector: string) => {
     const colors = {
       Logística: "bg-blue-100 text-blue-800",

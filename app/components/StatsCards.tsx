@@ -1,9 +1,9 @@
 import { Building, DollarSign, Percent, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import type { mockFiis } from "~/data/mockFiis";
+import type { Fii } from "~/types/fiis";
 
 interface StatsCardsProps {
-  fiis: typeof mockFiis;
+  fiis: Fii[];
 }
 
 export const StatsCards = ({ fiis }: StatsCardsProps) => {
