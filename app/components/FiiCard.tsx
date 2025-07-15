@@ -51,13 +51,15 @@ export const FiiCard = ({
         <div className="flex items-start justify-between">
           <div>
             <CardTitle className="text-lg font-bold text-gray-900">
-              {fii.ticker}
+              {fii.ticker ?? "-"}
             </CardTitle>
             <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-              {fii.name}
+              {fii.name ?? "-"}
             </p>
           </div>
-          <Badge className={getSectorColor(fii.sector)}>{fii.sector}</Badge>
+          <Badge className={getSectorColor(fii.sector)}>
+            {fii.sector ?? "-"}
+          </Badge>
         </div>
       </CardHeader>
 
@@ -65,14 +67,14 @@ export const FiiCard = ({
         <div className="grid grid-cols-2 gap-4">
           <div>
             <div className="text-2xl font-bold text-gray-900">
-              {formatCurrency(fii.price)}
+              {fii.price ? formatCurrency(fii.price) : "-"}
             </div>
             <div className="text-xs text-gray-500">Cotação</div>
           </div>
           <div className="text-right">
             <div className="flex items-center justify-end">
               <div className="text-2xl font-bold text-green-600">
-                {fii?.dividendYield?.toFixed(1)}%
+                {fii?.dividendYield ? fii.dividendYield.toFixed(1) : "-"}
               </div>
               <Percent className="w-4 h-4 ml-1 text-green-600" />
             </div>
@@ -83,13 +85,13 @@ export const FiiCard = ({
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <div className="font-semibold text-gray-900">
-              {fii?.pvp?.toFixed(2)}
+              {fii?.pvp ? fii.pvp.toFixed(2) : "-"}
             </div>
             <div className="text-xs text-gray-500">P/VP</div>
           </div>
           <div className="text-right">
             <div className="font-semibold text-gray-900">
-              {fii?.vacancy?.toFixed(1)}%
+              {fii?.vacancy ? fii.vacancy.toFixed(1) : "-"}
             </div>
             <div className="text-xs text-gray-500">Vacância</div>
           </div>
@@ -98,11 +100,11 @@ export const FiiCard = ({
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center text-gray-600">
             <Building className="w-4 h-4 mr-1" />
-            {fii.properties} imóveis
+            {fii.properties ? fii.properties : "-"} imóveis
           </div>
           <div className="flex items-center text-gray-600">
             <Calendar className="w-4 h-4 mr-1" />
-            {formatDate(fii.dividendDate)}
+            {fii?.dividendDate ? formatDate(fii.dividendDate) : "-"}
           </div>
         </div>
 
@@ -110,7 +112,7 @@ export const FiiCard = ({
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-600">Último dividendo:</span>
             <span className="font-semibold text-green-600">
-              {formatCurrency(fii.lastDividend)}
+              {fii?.lastDividend ? formatCurrency(fii.lastDividend) : "N/A"}
             </span>
           </div>
         </div>
