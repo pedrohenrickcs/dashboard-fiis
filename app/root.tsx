@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import type { Route } from "./+types/root";
 import "./app.css";
+import Loading from "./components/Loading";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -40,6 +41,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
+  );
+}
+
+export function HydrateFallback() {
+  return (
+    <Loading
+      width="24"
+      height="24"
+      text="carregando..."
+      className="flex flex-col items-center justify-center min-h-screen"
+    />
   );
 }
 

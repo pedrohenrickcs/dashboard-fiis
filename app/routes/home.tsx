@@ -7,6 +7,7 @@ import { StatsCards } from "~/components/StatsCards";
 import { Card, CardContent } from "~/components/ui/card";
 import type { Route } from "./+types/home";
 
+import Loading from "~/components/Loading";
 import { useFiis } from "~/hooks/useFiis";
 
 export function meta({}: Route.MetaArgs) {
@@ -21,7 +22,16 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  const tickers = ["HGLG11", "KNRI11", "MXRF11", "ALZR11", "ALZC11", "EQIR11"];
+  const tickers = [
+    "HGLG11",
+    "KNRI11",
+    "MXRF11",
+    "AAGR11",
+    "ALZC11",
+    "EQIR11",
+    "IRDM11",
+    "BTHF11",
+  ];
   const { data: fiis, isLoading, error } = useFiis(tickers);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,7 +39,7 @@ export default function Home() {
   const [showComparator, setShowComparator] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  if (isLoading) return <p>Carregando…</p>;
+  if (isLoading) return <Loading className="flex justify-center" />;
   if (error) return <p>Erro: {(error as Error).message}</p>;
 
   const handleSearchChange = (value: string) => {
